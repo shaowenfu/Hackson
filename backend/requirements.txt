@@ -1,0 +1,16 @@
+# Flask Web框架
+flask
+
+# 跨域资源共享支持
+flask-cors
+
+# MongoDB数据库支持
+flask-pymongo
+
+# HTTP请求库（用于调用OpenAI API等）
+requests
+
+# 环境变量加载
+python-dotenv
+
+# TODO: 如需其他依赖，可在此补充
