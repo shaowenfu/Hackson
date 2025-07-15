@@ -75,8 +75,116 @@
                         <h1 class="dimension-title">核心人格：大五模型</h1>
                         <p class="dimension-description">基于科学的大五人格理论，深入了解您的性格特质</p>
                     </div>
-                    <div class="placeholder-content">
-                        <p>大五人格内容将在后续开发中实现</p>
+
+                    <!-- Personality Type Overview -->
+                    <div class="personality-overview-card">
+                        <div class="personality-type-badge" id="personality-type-badge">
+                            平衡型实干家
+                        </div>
+                        <p class="personality-description" id="personality-description">
+                            正在加载您的人格描述...
+                        </p>
+                    </div>
+
+                    <!-- Radar Chart Container -->
+                    <div class="radar-chart-container">
+                        <h3>人格特质雷达图</h3>
+                        <div class="radar-chart-wrapper">
+                            <canvas id="personality-radar-chart" width="400" height="400"></canvas>
+                        </div>
+                        <div class="radar-legend" id="radar-legend">
+                            <!-- Legend items will be dynamically generated -->
+                        </div>
+                    </div>
+
+                    <!-- Detailed Analysis Sections -->
+                    <div class="analysis-sections">
+                        <!-- Lifestyle & Actions -->
+                        <div class="analysis-section">
+                            <h3>生活方式与行动建议</h3>
+                            <div class="suggestions-grid">
+                                <div class="suggestions-column">
+                                    <h4>🏠 生活风格建议</h4>
+                                    <ul class="suggestions-list" id="lifestyle-suggestions">
+                                        <!-- Lifestyle suggestions will be populated -->
+                                    </ul>
+                                </div>
+                                <div class="suggestions-column">
+                                    <h4>🎯 行动建议</h4>
+                                    <ul class="suggestions-list" id="action-suggestions">
+                                        <!-- Action suggestions will be populated -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Development Plans -->
+                        <div class="analysis-section">
+                            <h3>个人发展规划</h3>
+                            <div class="development-plans">
+                                <div class="development-card short-term">
+                                    <h4>📅 短期发展 (1-4周)</h4>
+                                    <p id="development-short-term">正在加载短期发展计划...</p>
+                                </div>
+                                <div class="development-card long-term">
+                                    <h4>🎯 长期发展 (1-6个月)</h4>
+                                    <p id="development-long-term">正在加载长期发展计划...</p>
+                                </div>
+                                <div class="development-card career-integration" id="career-integration-card">
+                                    <h4>💼 职业整合</h4>
+                                    <p id="development-career-integration">正在加载职业整合建议...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Career Insights -->
+                        <div class="analysis-section">
+                            <h3>职业洞察</h3>
+                            <div class="career-insights">
+                                <div class="career-overview">
+                                    <h4>💡 职业匹配概述</h4>
+                                    <p id="career-overview">正在加载职业匹配分析...</p>
+                                </div>
+                                <div class="career-recommendations">
+                                    <div class="career-column">
+                                        <h4>✅ 推荐职业</h4>
+                                        <ul class="career-list" id="career-recommendations">
+                                            <!-- Career recommendations will be populated -->
+                                        </ul>
+                                    </div>
+                                    <div class="career-column">
+                                        <h4>⚠️ 建议避免</h4>
+                                        <ul class="career-list avoid" id="career-avoid">
+                                            <!-- Career avoidance suggestions will be populated -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Insights -->
+                        <div class="analysis-section">
+                            <h3>社交洞察</h3>
+                            <div class="social-insights">
+                                <div class="social-prediction">
+                                    <h4>🤝 社交预测</h4>
+                                    <p id="social-prediction">正在加载社交行为分析...</p>
+                                </div>
+                                <div class="social-tips">
+                                    <h4>💬 社交策略</h4>
+                                    <ul class="suggestions-list" id="social-tips">
+                                        <!-- Social tips will be populated -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Disclaimer -->
+                    <div class="disclaimer-card">
+                        <p id="personality-disclaimer">
+                            此分析由AI模型生成，仅供参考和自我探索，不构成专业的心理诊断或建议。如有需要，请咨询专业心理咨询师。
+                        </p>
                     </div>
                 </div>
 
@@ -85,8 +193,59 @@
                         <h1 class="dimension-title">核心价值：施瓦茨理论</h1>
                         <p class="dimension-description">探索驱动您行为和决策的核心价值观</p>
                     </div>
-                    <div class="placeholder-content">
-                        <p>核心价值内容将在后续开发中实现</p>
+
+                    <!-- Values Hierarchy Display -->
+                    <div class="values-hierarchy-container">
+                        <h3>您的价值观排序</h3>
+                        <div class="values-ranking" id="values-ranking">
+                            <!-- Values will be dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Values Circle Diagram -->
+                    <div class="values-circle-container">
+                        <h3>价值观图谱</h3>
+                        <div class="values-circle" id="values-circle">
+                            <svg width="300" height="300" viewBox="0 0 300 300">
+                                <!-- Circle background -->
+                                <circle cx="150" cy="150" r="120" fill="none" stroke="#EFEFEF" stroke-width="2"/>
+                                <circle cx="150" cy="150" r="80" fill="none" stroke="#EFEFEF" stroke-width="1"/>
+                                <circle cx="150" cy="150" r="40" fill="none" stroke="#EFEFEF" stroke-width="1"/>
+                                
+                                <!-- Value points will be added dynamically -->
+                                <g id="value-points"></g>
+                                
+                                <!-- Center point -->
+                                <circle cx="150" cy="150" r="4" fill="#B4C7D9"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Top Values Analysis -->
+                    <div class="top-values-analysis">
+                        <h3>核心价值观深度解析</h3>
+                        <div class="values-cards-container" id="values-cards-container">
+                            <!-- Top 3 values cards will be dynamically generated -->
+                        </div>
+                    </div>
+
+                    <!-- Values Analysis & Action Guide -->
+                    <div class="values-insight-card">
+                        <h3>价值观洞察与实践指南</h3>
+                        <div class="two-column-content">
+                            <div class="column">
+                                <h4>价值观分析</h4>
+                                <p class="values-analysis-content" id="values-analysis-content">
+                                    正在加载您的价值观分析...
+                                </p>
+                            </div>
+                            <div class="column">
+                                <h4>实践指南</h4>
+                                <p class="values-guide-content" id="values-guide-content">
+                                    正在加载实践建议...
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

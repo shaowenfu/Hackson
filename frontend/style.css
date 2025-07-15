@@ -377,6 +377,544 @@ body {
     background-color: rgba(180, 199, 217, 0.5);
 }
 
+/* Values Page Styles */
+.values-hierarchy-container {
+    margin-bottom: 32px;
+    padding: 24px;
+    background-color: rgba(180, 199, 217, 0.05);
+    border-radius: 16px;
+}
+
+.values-hierarchy-container h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.values-ranking {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.value-rank-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    border-left: 4px solid #B4C7D9;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.value-rank-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(180, 199, 217, 0.2);
+}
+
+.value-rank-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #B4C7D9;
+    color: #FFFFFF;
+    border-radius: 50%;
+    font-weight: 500;
+    font-size: 14px;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.value-rank-item.rank-1 .value-rank-number {
+    background-color: #FFD700;
+    color: #2C3E50;
+}
+
+.value-rank-item.rank-2 .value-rank-number {
+    background-color: #C0C0C0;
+    color: #2C3E50;
+}
+
+.value-rank-item.rank-3 .value-rank-number {
+    background-color: #CD7F32;
+    color: #FFFFFF;
+}
+
+.value-rank-content {
+    flex: 1;
+}
+
+.value-rank-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 4px;
+}
+
+.value-rank-description {
+    font-size: 12px;
+    color: #999999;
+    line-height: 1.4;
+}
+
+/* Values Circle Diagram */
+.values-circle-container {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.values-circle-container h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 20px;
+}
+
+.values-circle {
+    display: inline-block;
+    position: relative;
+}
+
+.value-point {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.value-point:hover {
+    transform: scale(1.2);
+}
+
+.value-point.highlighted {
+    filter: drop-shadow(0 0 8px rgba(180, 199, 217, 0.8));
+}
+
+.value-label {
+    font-size: 11px;
+    font-weight: 500;
+    fill: #2C3E50;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+/* Top Values Analysis */
+.top-values-analysis {
+    margin-bottom: 32px;
+}
+
+.top-values-analysis h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.values-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.value-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #EFEFEF;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #B4C7D9, #9EADC0);
+}
+
+.value-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(180, 199, 217, 0.15);
+}
+
+.value-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.value-card-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(180, 199, 217, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.value-card-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+}
+
+.value-card-rank {
+    margin-left: auto;
+    background-color: #B4C7D9;
+    color: #FFFFFF;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.value-card-description {
+    font-size: 14px;
+    color: #595959;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.value-card-impact {
+    background-color: rgba(180, 199, 217, 0.05);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 3px solid #B4C7D9;
+}
+
+.value-card-impact-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 6px;
+}
+
+.value-card-impact-text {
+    font-size: 12px;
+    color: #595959;
+    line-height: 1.5;
+}
+
+/* Values Insight Card */
+.values-insight-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #EFEFEF;
+}
+
+.values-insight-card h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 20px;
+}
+
+.values-analysis-content,
+.values-guide-content {
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* Big Five Personality Page Styles */
+.personality-overview-card {
+    margin-bottom: 32px;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(180, 199, 217, 0.1), rgba(158, 173, 192, 0.05));
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(180, 199, 217, 0.2);
+}
+
+.personality-type-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #B4C7D9, #9EADC0);
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(180, 199, 217, 0.3);
+}
+
+.personality-description {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #2C3E50;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Radar Chart */
+.radar-chart-container {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.radar-chart-container h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 20px;
+}
+
+.radar-chart-wrapper {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#personality-radar-chart {
+    max-width: 100%;
+    height: auto;
+}
+
+.radar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: rgba(180, 199, 217, 0.1);
+    border-radius: 20px;
+    font-size: 12px;
+    color: #2C3E50;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #B4C7D9;
+}
+
+/* Analysis Sections */
+.analysis-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.analysis-section {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #EFEFEF;
+}
+
+.analysis-section h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(180, 199, 217, 0.2);
+    padding-bottom: 8px;
+}
+
+/* Suggestions Grid */
+.suggestions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.suggestions-column h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 16px;
+}
+
+.suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestions-list li {
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    background-color: rgba(180, 199, 217, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #B4C7D9;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.suggestions-list li:hover {
+    background-color: rgba(180, 199, 217, 0.1);
+    transform: translateX(2px);
+}
+
+/* Development Plans */
+.development-plans {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.development-card {
+    background-color: rgba(180, 199, 217, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(180, 199, 217, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.development-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(180, 199, 217, 0.15);
+}
+
+.development-card.career-integration {
+    grid-column: 1 / -1;
+}
+
+.development-card h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 12px;
+}
+
+.development-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #595959;
+}
+
+/* Career Insights */
+.career-insights {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.career-overview {
+    background-color: rgba(180, 199, 217, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(180, 199, 217, 0.2);
+}
+
+.career-overview h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 12px;
+}
+
+.career-overview p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #595959;
+}
+
+.career-recommendations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.career-column h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 16px;
+}
+
+.career-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.career-list li {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    background-color: rgba(119, 191, 163, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #77BFA3;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.career-list.avoid li {
+    background-color: rgba(229, 115, 115, 0.1);
+    border-left-color: #E57373;
+}
+
+/* Social Insights */
+.social-insights {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.social-prediction {
+    background-color: rgba(180, 199, 217, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(180, 199, 217, 0.2);
+}
+
+.social-prediction h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 12px;
+}
+
+.social-prediction p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #595959;
+}
+
+.social-tips h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2C3E50;
+    margin-bottom: 16px;
+}
+
+/* Disclaimer */
+.disclaimer-card {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background-color: rgba(249, 168, 112, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(249, 168, 112, 0.3);
+    text-align: center;
+}
+
+.disclaimer-card p {
+    font-size: 12px;
+    color: #999999;
+    line-height: 1.5;
+    margin: 0;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .app-container {
