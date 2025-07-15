@@ -5,11 +5,11 @@ Flask扩展初始化模块
 - 避免循环引用
 """
 
-from flask_pymongo import PyMongo
+# from flask_pymongo import PyMongo
 from flask_cors import CORS
 
 # 初始化MongoDB扩展
-mongo = PyMongo()
+# mongo = PyMongo()
 # 初始化CORS扩展
 cors = CORS()
 

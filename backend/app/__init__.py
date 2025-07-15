@@ -8,7 +8,7 @@
 
 from flask import Flask
 from .config import Config
-from .extensions import mongo, cors
+from .extensions import cors
 from .routes import register_blueprints
 
 def create_app():

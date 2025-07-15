@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心语晴空 - 动态心理报告</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Panel - Report Area -->
+        <div class="report-panel" id="report-panel">
+            <!-- Navigation Sidebar -->
+            <nav class="navigation-sidebar">
+                <div class="nav-item active" data-dimension="mind-overview">
+                    <div class="nav-icon">🧠</div>
+                    <span class="nav-text">心灵总览</span>
+                </div>
+                <div class="nav-item" data-dimension="big-five">
+                    <div class="nav-icon">⭐</div>
+                    <span class="nav-text">核心人格</span>
+                </div>
+                <div class="nav-item" data-dimension="core-values">
+                    <div class="nav-icon">🪷</div>
+                    <span class="nav-text">核心价值</span>
+                </div>
+                <div class="nav-item" data-dimension="mood-barometer">
+                    <div class="nav-icon">🌤️</div>
+                    <span class="nav-text">情绪晴雨表</span>
+                </div>
+                <div class="nav-item" data-dimension="growth-journal">
+                    <div class="nav-icon">📖</div>
+                    <span class="nav-text">成长印记</span>
+                </div>
+            </nav>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <div class="dimension-content" id="mind-overview" style="display: block;">
+                    <div class="content-header">
+                        <h1 class="dimension-title">心灵总览</h1>
+                        <p class="dimension-description">探索您内心世界的全貌，发现独特的心理画像</p>
+                    </div>
+                    
+                    <div class="keyword-cloud-container">
+                        <div class="keyword-cloud" id="keyword-cloud">
+                            <!-- Keywords will be dynamically generated -->
+                            <span class="keyword">探索者</span>
+                            <span class="keyword">创造力</span>
+                            <span class="keyword">同理心</span>
+                            <span class="keyword">成长</span>
+                            <span class="keyword">平衡</span>
+                        </div>
+                    </div>
+
+                    <div class="insight-action-card">
+                        <h3>核心洞察与行动指南</h3>
+                        <div class="two-column-content">
+                            <div class="column">
+                                <h4>分析与解读</h4>
+                                <p class="analysis-content">您展现出强烈的好奇心和开放性，这使您能够从多个角度看待问题。您的同理心让您在人际关系中表现出色，而您对成长的渴望推动着您不断前进。</p>
+                            </div>
+                            <div class="column">
+                                <h4>今日微行动</h4>
+                                <p class="action-content">今天尝试与一位陌生人进行一次有意义的对话，或者花10分钟时间反思今天学到的新知识。</p>
+                                <button class="action-button">完成打卡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other dimension contents will be hidden initially -->
+                <div class="dimension-content" id="big-five" style="display: none;">
+                    <div class="content-header">
+                        <h1 class="dimension-title">核心人格：大五模型</h1>
+                        <p class="dimension-description">基于科学的大五人格理论，深入了解您的性格特质</p>
+                    </div>
+                    <div class="placeholder-content">
+                        <p>大五人格内容将在后续开发中实现</p>
+                    </div>
+                </div>
+
+                <div class="dimension-content" id="core-values" style="display: none;">
+                    <div class="content-header">
+                        <h1 class="dimension-title">核心价值：施瓦茨理论</h1>
+                        <p class="dimension-description">探索驱动您行为和决策的核心价值观</p>
+                    </div>
+                    <div class="placeholder-content">
+                        <p>核心价值内容将在后续开发中实现</p>
+                    </div>
+                </div>
+
+                <div class="dimension-content" id="mood-barometer" style="display: none;">
+                    <div class="content-header">
+                        <h1 class="dimension-title">情绪晴雨表</h1>
+                        <p class="dimension-description">追踪和理解您的情绪模式与变化</p>
+                    </div>
+                    <div class="placeholder-content">
+                        <p>情绪晴雨表内容将在后续开发中实现</p>
+                    </div>
+                </div>
+
+                <div class="dimension-content" id="growth-journal" style="display: none;">
+                    <div class="content-header">
+                        <h1 class="dimension-title">成长印记</h1>
+                        <p class="dimension-description">记录您的心理成长轨迹和重要时刻</p>
+                    </div>
+                    <div class="placeholder-content">
+                        <p>成长印记内容将在后续开发中实现</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Chat Area -->
+        <div class="chat-panel" id="chat-panel">
+            <div class="chat-header">
+                <h2>AI 心理助手</h2>
+                <p>随时与我对话，获得即时的心理疏导和建议</p>
+            </div>
+
+            <div class="message-stream" id="message-stream">
+                <div class="message ai-message">
+                    <div class="message-bubble">
+                        您好！我是您的AI心理助手。我可以帮助您更好地理解心理报告，或者与您探讨任何心理健康相关的话题。有什么我可以帮助您的吗？
+                    </div>
+                </div>
+            </div>
+
+            <div class="suggestion-chips" id="suggestion-chips">
+                <button class="suggestion-chip">解释我的人格特质</button>
+                <button class="suggestion-chip">如何提升情绪管理</button>
+                <button class="suggestion-chip">价值观冲突怎么办</button>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea 
+                        id="chat-input" 
+                        placeholder="输入您的问题或想法..."
+                        rows="3"
+                    ></textarea>
+                    <button class="send-button" id="send-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

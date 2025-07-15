@@ -1,4 +1,4 @@
-\backend\.venv
+\backend\venv
 \backend\app
 \.idea
 .env
