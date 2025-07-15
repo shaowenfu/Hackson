@@ -1,0 +1,171 @@
+{
+    "designSystemProfile": {
+      "name": "Mind Elixir - Serene & Secure UI v2",
+      "description": "一个融合了东方美学的宁静感与现代心理学分析的清晰度的设计系统。其风格旨在创造一个平静、安全、富有洞察力的用户环境。此版本包含完整的报告与聊天双栏布局，以增强高级感和安全感。",
+      "designStyle": {
+        "philosophy": "以极简主义为骨架，融入柔和、自然的意象。优先保证信息的可读性与清晰的视觉层次，通过淡雅的色彩、充足的留白和舒缓的动效，营造出一种既专业权威又充满治愈感的氛围。",
+        "colorPalette": {
+          "primary": {
+            "background": "#F7F7F5",
+            "description": "更纯净、柔和的米白色，作为页面的主背景，营造一个舒适、无压力的画布。"
+          },
+          "secondary": {
+            "cardBackground": "#FFFFFF",
+            "headerBackground": "#EFEFEF",
+            "description": "纯白用于承载核心内容的卡片和面板，而更中性的浅灰色用于次要元素背景，增加层次感。"
+          },
+          "accent": {
+            "primaryAccent": "#B4C7D9",
+            "secondaryAccent": "#9EADC0",
+            "interactiveHighlight": "#8A9AAF",
+            "description": "一种柔和、平静的天空蓝/莫兰迪蓝，用于高亮、激活状态和关键按钮。更深的蓝色调用于交互反馈，提供清晰而不刺眼的视觉指引。"
+          },
+          "text": {
+            "headings": "#2C3E50",
+            "body": "#595959",
+            "subtle": "#999999",
+            "highlight": "#B4C7D9",
+            "description": "采用更具现代感的深蓝灰色作为标题，确保可读性的同时更显柔和。点缀色用于需要特别强调的信息。"
+          },
+          "feedback": {
+            "success": "#77BFA3",
+            "warning": "#F9A870",
+            "error": "#E57373",
+            "description": "一套饱和度更低、更柔和的语义化颜色，用于系统反馈，与整体色调保持一致。"
+          }
+        },
+        "typography": {
+          "fontFamily": "优先使用 'PingFang SC' 或 '思源黑体 (Noto Sans SC)' 作为中文字体，其圆润、清晰的字形能提供舒适的阅读体验。使用 'Inter' 作为西文和数字字体。",
+          "hierarchy": [
+            { "level": "H1", "fontSize": "24px", "fontWeight": "500" },
+            { "level": "H2", "fontSize": "20px", "fontWeight": "500" },
+            { "level": "H3", "fontSize": "16px", "fontWeight": "500" },
+            { "level": "Body", "fontSize": "14px", "fontWeight": "400", "lineHeight": "1.7" },
+            { "level": "Subtle", "fontSize": "12px", "fontWeight": "400" }
+          ]
+        },
+        "animationAndMotion": {
+          "philosophy": "所有动效都应是平滑、舒缓且有意义的。动画的目的是引导用户注意力、提供流畅的过渡和状态反馈，而不是为了炫技。避免突兀、快速或分散注意力的动画。",
+          "timing": "0.3s - 0.5s",
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+        }
+      },
+      "structuralElements": {
+        "layoutPrinciples": {
+          "type": "非对称双栏布局 (Asymmetrical Two-Column Layout)",
+          "description": "整体页面分为左右两个主要面板，并置于统一的页面背景(primary.background)之上。左侧为宽阔的报告面板（约占60%-65%），右侧为稍窄的聊天互动面板（约占35%-40%）。这种布局能让用户在查看深度分析报告的同时，随时与AI进行对话，获得即时疏导。",
+          "panelStyle": {
+            "style": "左右两个面板均使用 secondary.cardBackground 作为背景色，拥有 16px 的圆角和一层非常微妙、发散的阴影 (box-shadow: 0 4px 12px rgba(0,0,0,0.05))，使其从主背景中柔和地浮起，形成清晰而舒适的边界感。"
+          }
+        },
+        "spacingSystem": {
+          "baseUnit": "8px",
+          "principles": "所有内外边距、元素间距都遵循8px的整数倍原则，创造出和谐、一致的视觉节奏。充足的留白是设计的核心。",
+          "examples": {
+            "pagePadding": "32px",
+            "panelPadding": "24px",
+            "interPanelSpacing": "24px",
+            "interElementSpacing": "16px"
+          }
+        }
+      },
+      "components": {
+        "navigation": {
+          "sidebar": {
+            "style": "位于左侧报告面板内部。一个垂直图标和文本列表。当前激活的维度会有一个柔和的背景高亮（使用 accent.primaryAccent 的15%透明度变体）和一条清晰的左侧边框线（使用 accent.primaryAccent）。",
+            "usage": "在五个核心心理学维度之间切换。",
+            "icons": {
+              "mind-overview": "一个发光的大脑或被云朵环绕的心形图标",
+              "big-five": "一个五角星或简化的雷达图图标",
+              "core-values": "一朵绽放的莲花或一个圆环图图标",
+              "mood-barometer": "一个太阳和云朵结合的图标",
+              "growth-journal": "一本打开的书或一个脚印图标"
+            }
+          }
+        },
+        "cards": {
+          "style": "位于报告面板内容区内。使用 cardBackground 颜色，拥有 16px 的圆角，无额外阴影，与面板背景融为一体，仅通过内容和标题区分。",
+          "variants": {
+            "default": "用于承载单一信息的标准卡片。",
+            "twoColumn": "卡片内部分为左右两栏。",
+            "expandable": "与雷达图等交互元素联动，点击后平滑展开。"
+          }
+        },
+        "buttons": {
+          "primary": { "style": "由 primaryAccent 填充，白色文字，12px 圆角，无阴影，悬浮时有轻微亮度提升。" },
+          "secondary": { "style": "透明背景，primaryAccent 颜色的边框和文字，12px圆角。悬浮时背景变为极淡的 accent 颜色。" }
+        },
+        "chatInterface": {
+          "panel": {
+            "style": "右侧聊天面板的容器，遵循 structuralElements.panelStyle 的定义。"
+          },
+          "messageStream": {
+            "style": "一个可滚动的区域，用于显示对话历史。消息之间有足够的间距 (12px)。"
+          },
+          "bubble": {
+            "ai": {
+              "style": "align-self: flex-start; background-color: secondary.headerBackground; color: text.body; border-radius: 16px 16px 16px 4px; padding: 12px 16px; max-width: 80%;"
+            },
+            "user": {
+              "style": "align-self: flex-end; background-color: accent.primaryAccent; color: #FFFFFF; border-radius: 16px 16px 4px 16px; padding: 12px 16px; max-width: 80%;"
+            }
+          },
+          "inputArea": {
+            "style": "位于聊天面板底部，包含输入框和发送按钮。",
+            "textInput": {
+              "style": "width: 100%; border: 1px solid #EFEFEF; border-radius: 12px; padding: 12px; background-color: primary.background; resize: none;"
+            },
+            "sendButton": {
+              "style": "一个无背景的图标按钮，使用 accent.primaryAccent 颜色，悬浮时颜色变深。"
+            }
+          },
+          "suggestionChip": {
+            "style": "小尺寸、胶囊状(圆角极大)的按钮，使用 secondary.headerBackground 作为背景，text.body 作为文字颜色。用于展示AI提供的快捷回复建议。"
+          }
+        },
+        "visualizations": {
+          "keywordCloud": "动态生成的关键词云图。",
+          "radarChart": "五边形雷达图，使用 accent.primaryAccent 的30%透明度填充。",
+          "circularValuesDiagram": "一个圆环或花瓣状的图谱。",
+          "moodCurveChart": "一条平滑的曲线图。"
+        }
+      },
+      "uiComponentManifest": {
+        "description": "此部分将整体布局与具体的UI组件和数据绑定进行映射，作为开发的直接参考。",
+        "pageLayout": {
+          "type": "AsymmetricalTwoColumn",
+          "leftPanel": {
+            "id": "report-panel",
+            "content": [
+              { "component": "navigation.sidebar" },
+              { "component": "router-view", "description": "此区域根据侧边栏的选择，动态加载下方定义的五个维度之一。" }
+            ]
+          },
+          "rightPanel": {
+            "id": "chat-panel",
+            "content": [
+              { "component": "chatInterface.messageStream", "data": "{{chat.history}}" },
+              { "component": "chatInterface.suggestionChip", "data": "{{chat.suggestions}}", "condition": "if(chat.suggestions.length > 0)" },
+              { "component": "chatInterface.inputArea" }
+            ]
+          }
+        },
+        "reportDimensions": [
+          {
+            "id": "mind-overview",
+            "name": "心灵总览",
+            "layout": [
+              { "component": "staticContent", "data": { "title": "{{...snapshotTitle}}", "description": "{{...snapshotDescription}}" } },
+              { "component": "visualizations.keywordCloud", "data": "{{...keywords}}" },
+              { "component": "cards.twoColumn", "title": "核心洞察与行动指南", "columns": [
+                  { "title": "分析与解读", "content": "{{user.overview.analysis}}" },
+                  { "title": "今日微行动", "content": "{{user.overview.actionGuide}}", "interactiveElement": "buttons.primary" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+  
