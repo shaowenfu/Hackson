@@ -7,7 +7,8 @@ OpenAI Azure API服务
 import os
 import time
 import requests
-from typing import List, Dict, Tuple, Optional
+import json
+from typing import List, Dict, Tuple, Optional, Generator
 
 class OpenAIService:
     """
@@ -198,3 +199,104 @@ class OpenAIService:
             List[str]: 可用模型列表
         """
         return [model for model in self.AZURE_AI_API_KEY_MAP.keys() if self.is_model_available(model)]
+    
+    def call_azure_gpt_stream(
+        self, 
+        message_list: List[Dict], 
+        temperature: float = None,
+        max_tokens: int = None,
+        model: str = None,
+        top_p: float = None
+    ) -> Generator[str, None, None]:
+        """
+        调用Azure GPT模型进行流式对话
+        
+        Args:
+            message_list: 消息列表，格式为 [{"role": "user", "content": "消息内容"}, ...]
+            temperature: 温度参数，控制回复的随机性 (0-1)
+            max_tokens: 最大token数
+            model: 使用的模型名称
+            top_p: top_p参数
+            
+        Yields:
+            str: 流式返回的文本片段
+        """
+        # 使用默认值
+        temperature = temperature if temperature is not None else self.default_temperature
+        max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
+        model = model if model is not None else self.default_model
+        top_p = top_p if top_p is not None else self.default_top_p
+        
+        # 验证模型是否支持
+        if model not in self.AZURE_AI_API_KEY_MAP:
+            self.print_log(f"Unsupported model: {model}")
+            return
+            
+        # 获取API密钥和端点
+        api_key = self.AZURE_AI_API_KEY_MAP[model]
+        endpoint = self.AZURE_AI_MODEL_ENDPOINT[model]
+        
+        if not api_key or not endpoint:
+            self.print_log(f"API key or endpoint not configured for model {model}")
+            return
+        
+        # 设置请求头
+        headers = {
+            "Content-Type": "application/json",
+            "api-key": api_key,
+        }
+        
+        # 构造请求体，启用流式输出
+        payload = {
+            "messages": message_list,
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_tokens": max_tokens,
+            "stream": True
+        }
+        
+        self.print_log(f"Calling Azure OpenAI model {model} with streaming, message count: {len(message_list)}")
+        
+        try:
+            # 发送流式请求
+            response = requests.post(endpoint, headers=headers, json=payload, stream=True)
+            response.raise_for_status()
+            
+            # 处理流式响应
+            for line in response.iter_lines():
+                if line:
+                    line = line.decode('utf-8')
+                    if line.startswith('data: '):
+                        data = line[6:]  # 移除 'data: ' 前缀
+                        
+                        if data.strip() == '[DONE]':
+                            break
+                            
+                        try:
+                            json_data = json.loads(data)
+                            if 'choices' in json_data and len(json_data['choices']) > 0:
+                                delta = json_data['choices'][0].get('delta', {})
+                                if 'content' in delta:
+                                    yield delta['content']
+                        except json.JSONDecodeError:
+                            continue
+                            
+        except requests.RequestException as e:
+            self.print_log(f"API request failed: {e}")
+            return
+        except Exception as e:
+            self.print_log(f"Unknown error: {e}")
+            return
+    
+    def chat_stream(self, messages: List[Dict], **kwargs) -> Generator[str, None, None]:
+        """
+        简化的流式聊天接口
+        
+        Args:
+            messages: 消息列表
+            **kwargs: 其他参数
+            
+        Yields:
+            str: 流式返回的文本片段
+        """
+        yield from self.call_azure_gpt_stream(messages, **kwargs)
