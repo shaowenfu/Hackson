@@ -254,8 +254,119 @@
                         <h1 class="dimension-title">情绪晴雨表</h1>
                         <p class="dimension-description">追踪和理解您的情绪模式与变化</p>
                     </div>
-                    <div class="placeholder-content">
-                        <p>情绪晴雨表内容将在后续开发中实现</p>
+
+                    <!-- Current Mood Status -->
+                    <div class="current-mood-container">
+                        <div class="mood-status-card">
+                            <div class="mood-icon" id="mood-icon">🌤️</div>
+                            <div class="mood-info">
+                                <h3 class="current-mood-title">当前情绪状态</h3>
+                                <div class="current-mood-text" id="current-mood-text">平静与满足</div>
+                                <div class="mood-date" id="mood-date">2023年10月27日</div>
+                            </div>
+                            <div class="mood-score-display">
+                                <div class="mood-score-circle">
+                                    <div class="mood-score-number" id="mood-score-number">8.0</div>
+                                    <div class="mood-score-label">情绪评分</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mood Chart Container -->
+                    <div class="mood-chart-container">
+                        <div class="chart-header">
+                            <h3 id="chart-title">近两周情绪波动趋势：积极且稳定</h3>
+                            <p class="chart-subtitle" id="chart-subtitle">情绪评分范围1-10，分数越高代表情绪越积极、稳定。</p>
+                        </div>
+                        <div class="mood-chart-wrapper">
+                            <canvas id="mood-chart" width="800" height="300"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color mood-line"></div>
+                                <span>情绪评分</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color trend-line"></div>
+                                <span>趋势线</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emotional Toolbox -->
+                    <div class="emotional-toolbox">
+                        <h3>情绪洞察与调节工具箱</h3>
+                        <div class="toolbox-content">
+                            <div class="toolbox-section">
+                                <h4>🧠 你的情绪模式</h4>
+                                <div class="mood-analysis" id="mood-analysis">
+                                    正在加载情绪分析...
+                                </div>
+                            </div>
+                            <div class="toolbox-section">
+                                <h4>🛠️ 情绪工具箱</h4>
+                                <div class="action-guide" id="mood-action-guide">
+                                    正在加载行动指南...
+                                </div>
+                                <div class="toolbox-actions">
+                                    <button class="toolbox-button" id="breathing-exercise">
+                                        <span class="button-icon">🫁</span>
+                                        呼吸练习
+                                    </button>
+                                    <button class="toolbox-button" id="mood-journal">
+                                        <span class="button-icon">📝</span>
+                                        情绪日记
+                                    </button>
+                                    <button class="toolbox-button" id="mindfulness">
+                                        <span class="button-icon">🧘</span>
+                                        正念冥想
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mood History Summary -->
+                    <div class="mood-summary-container">
+                        <h3>情绪历史概览</h3>
+                        <div class="mood-stats-grid">
+                            <div class="mood-stat-card">
+                                <div class="stat-icon">📈</div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="avg-mood-score">0.0</div>
+                                    <div class="stat-label">平均评分</div>
+                                </div>
+                            </div>
+                            <div class="mood-stat-card">
+                                <div class="stat-icon">🎯</div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="stable-days">0</div>
+                                    <div class="stat-label">稳定天数</div>
+                                </div>
+                            </div>
+                            <div class="mood-stat-card">
+                                <div class="stat-icon">⭐</div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="peak-mood">0.0</div>
+                                    <div class="stat-label">最佳状态</div>
+                                </div>
+                            </div>
+                            <div class="mood-stat-card">
+                                <div class="stat-icon">📊</div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="tracking-days">0</div>
+                                    <div class="stat-label">记录天数</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Disclaimer -->
+                    <div class="disclaimer-card">
+                        <p id="mood-disclaimer">
+                            此分析由AI模型生成，仅供参考和自我探索，不构成专业的心理诊断或建议。如有需要，请咨询专业心理咨询师。
+                        </p>
                     </div>
                 </div>
 
@@ -264,8 +375,71 @@
                         <h1 class="dimension-title">成长印记</h1>
                         <p class="dimension-description">记录您的心理成长轨迹和重要时刻</p>
                     </div>
-                    <div class="placeholder-content">
-                        <p>成长印记内容将在后续开发中实现</p>
+
+                    <!-- Growth Timeline Container -->
+                    <div class="growth-timeline-container">
+                        <h3>您的成长时间线</h3>
+                        <div class="timeline-wrapper" id="timeline-wrapper">
+                            <!-- Timeline items will be dynamically generated -->
+                        </div>
+                    </div>
+
+                    <!-- Keywords Cloud -->
+                    <div class="growth-keywords-container">
+                        <h3>成长关键词</h3>
+                        <div class="growth-keywords-cloud" id="growth-keywords-cloud">
+                            <!-- Keywords will be dynamically generated -->
+                        </div>
+                    </div>
+
+                    <!-- Reflection Module -->
+                    <div class="reflection-module">
+                        <h3>回顾与展望</h3>
+                        <div class="reflection-content">
+                            <div class="reflection-prompt" id="reflection-prompt">
+                                正在加载反思引导...
+                            </div>
+                            <div class="reflection-input-area" id="reflection-input-area">
+                                <textarea 
+                                    id="reflection-textarea" 
+                                    placeholder="记录你的应对心得..."
+                                    rows="4"
+                                    style="display: none;"
+                                ></textarea>
+                                <div class="reflection-actions" style="display: none;">
+                                    <button class="reflection-save-btn" id="reflection-save-btn">保存感悟</button>
+                                    <button class="reflection-cancel-btn" id="reflection-cancel-btn">取消</button>
+                                </div>
+                                <button class="reflection-toggle-btn" id="reflection-toggle-btn">
+                                    写下感悟
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Growth Statistics -->
+                    <div class="growth-stats-container">
+                        <div class="growth-stat-card">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="total-entries">0</div>
+                                <div class="stat-label">成长记录</div>
+                            </div>
+                        </div>
+                        <div class="growth-stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="key-insights">0</div>
+                                <div class="stat-label">关键洞察</div>
+                            </div>
+                        </div>
+                        <div class="growth-stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="milestone-count">0</div>
+                                <div class="stat-label">里程碑</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -310,6 +484,8 @@
         </div>
     </div>
 
+    <!-- Markdown Parser Library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

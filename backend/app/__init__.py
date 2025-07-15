@@ -19,7 +19,6 @@ def create_app():
     app.config.from_object(Config)
 
     # 初始化扩展
-    # mongo.init_app(app)
     cors.init_app(app)
 
     # 注册蓝图

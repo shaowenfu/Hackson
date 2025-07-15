@@ -129,11 +129,23 @@ async function loadReportData() {
 }
 
 async function fetchDimensionData(dimension) {
-    const response = await fetch(`${API_BASE_URL}/report/${dimension}`, {
-        method: 'GET',
+    // Map frontend dimension names to backend API endpoints
+    const dimensionEndpoints = {
+        'overview': 'overview',
+        'bigfive': 'big_five',
+        'values': 'core_values', 
+        'mood': 'mood',
+        'journal': 'update'
+    };
+    
+    const endpoint = dimensionEndpoints[dimension] || dimension;
+    
+    const response = await fetch(`${API_BASE_URL}/report/${endpoint}`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({})
     });
     
     if (!response.ok) {
@@ -182,14 +194,7 @@ function getMockData(dimension) {
                 extraversion: 68,
                 agreeableness: 79,
                 neuroticism: 45
-            }
-        },
-        values: {
-            valueOrder: ["善行", "自主", "成就", "安全", "普世"],
-            valueAnalysis: "您的价值观体系展现出强烈的人文关怀特质。'善行'作为您的核心价值观，驱动着您在人际关系中表现出极强的同理心和助人倾向，这使您在团队合作中往往扮演支持者和协调者的角色。'自主'价值观让您在决策时更倾向于独立思考，不轻易受外界影响，这种特质在创新和问题解决方面为您提供了独特优势。当这些价值观得到满足时，您会感到内心充实和幸福；反之，若长期忽视帮助他人或失去自主权，可能会产生愧疚感和焦虑情绪。",
-            valueGuide: "针对您的核心价值观，建议以下实践方法：1）善行实践：每周三晚上与家人进行1次深度对话，记录对方的需求并尝试提供1个小帮助，这能强化您的关爱价值观与日常生活的联结。2）自主强化：每天早晨花10分钟独立制定当日计划，避免被他人的安排完全主导，培养独立决策的习惯。3）成就导向：设定每月一个可量化的个人目标，并记录达成过程，让成就感成为持续前进的动力。"
-        },
-        bigfive: {
+            },
             radarLabels: ["开放性", "尽责性", "外向性", "宜人性", "神经质"],
             radarData: [4.2, 3.6, 3.4, 4.0, 2.8],
             personalityType: "平衡型实干家",
@@ -235,16 +240,81 @@ function getMockData(dimension) {
             ],
             disclaimer: "此分析由AI模型生成，仅供参考和自我探索，不构成专业的心理诊断或建议。如有需要，请咨询专业心理咨询师。"
         },
-        mood: {
-            current: "平静",
-            trend: "稳定上升",
-            score: 7.2
+        values: {
+            valueOrder: ["善行", "自主", "成就", "安全", "普世"],
+            valueAnalysis: "您的价值观体系展现出强烈的人文关怀特质。'善行'作为您的核心价值观，驱动着您在人际关系中表现出极强的同理心和助人倾向，这使您在团队合作中往往扮演支持者和协调者的角色。'自主'价值观让您在决策时更倾向于独立思考，不轻易受外界影响，这种特质在创新和问题解决方面为您提供了独特优势。当这些价值观得到满足时，您会感到内心充实和幸福；反之，若长期忽视帮助他人或失去自主权，可能会产生愧疚感和焦虑情绪。",
+            valueGuide: "针对您的核心价值观，建议以下实践方法：1）善行实践：每周三晚上与家人进行1次深度对话，记录对方的需求并尝试提供1个小帮助，这能强化您的关爱价值观与日常生活的联结。2）自主强化：每天早晨花10分钟独立制定当日计划，避免被他人的安排完全主导，培养独立决策的习惯。3）成就导向：设定每月一个可量化的个人目标，并记录达成过程，让成就感成为持续前进的动力。"
         },
-        journal: {
-            entries: 15,
-            lastUpdate: "2024-01-15",
-            growthScore: 8.5
-        }
+        mood: {
+            reportGeneratedDate: "2023-10-27",
+            overallCurrentMood: "平静与满足",
+            moodHistory: [
+                { "date": "2023-10-14", "moodScore": 8.0, "moodDescription": "周末愉快，精力充沛" },
+                { "date": "2023-10-15", "moodScore": 8.5, "moodDescription": "享受家庭时光，感觉平和" },
+                { "date": "2023-10-16", "moodScore": 7.5, "moodDescription": "周一工作顺利，略有挑战但应对自如" },
+                { "date": "2023-10-17", "moodScore": 8.2, "moodDescription": "完成重要任务，成就感满满" },
+                { "date": "2023-10-18", "moodScore": 7.8, "moodDescription": "日常平稳，保持积极心态" },
+                { "date": "2023-10-19", "moodScore": 8.0, "moodDescription": "与同事交流融洽，工作效率高" },
+                { "date": "2023-10-20", "moodScore": 8.5, "moodDescription": "期待周末，心情轻松" },
+                { "date": "2023-10-21", "moodScore": 9.0, "moodDescription": "户外活动，身心放松" },
+                { "date": "2023-10-22", "moodScore": 8.8, "moodDescription": "享受阅读，沉浸在自我空间" },
+                { "date": "2023-10-23", "moodScore": 7.7, "moodDescription": "新一周开始，充满活力" },
+                { "date": "2023-10-24", "moodScore": 8.1, "moodDescription": "解决一个长期问题，感觉轻松" },
+                { "date": "2023-10-25", "moodScore": 7.9, "moodDescription": "日常有序，情绪稳定" },
+                { "date": "2023-10-26", "moodScore": 8.3, "moodDescription": "与朋友聚餐，心情愉悦" },
+                { "date": "2023-10-27", "moodScore": 8.0, "moodDescription": "对未来充满期待，保持平和" }
+            ],
+            chartDetails: {
+                chartTitle: "近两周情绪波动趋势：积极且稳定",
+                moodScoreScale: "情绪评分范围1-10，分数越高代表情绪越积极、稳定。"
+            },
+            emotionalToolbox: {
+                moodAnalysis: "我们发现，你近期的情绪状态非常积极和稳定，这表明你拥有很强的心理韧性和良好的情绪管理能力。即使面对挑战，你也能保持乐观并迅速调整。你的情绪模式非常健康，值得称赞。",
+                actionGuide: "情绪工具箱：请继续保持你当前健康的生活习惯，如规律作息、适度运动和积极社交。可以尝试引入一些新的爱好或小目标，为生活增添更多乐趣和新鲜感，让积极的情绪保持流动。同时，记得定期记录那些让你感到满足和快乐的瞬间，强化积极的心理循环。"
+            },
+            disclaimer: "此分析由AI模型生成，仅供参考和自我探索，不构成专业的心理诊断或建议。如有需要，请咨询专业心理咨询师。"
+        },
+        journal: [
+            {
+                timeline: [
+                    {"date": "2025-03-12", "updateReason": "首次焦虑情绪基线记录"},
+                    {"date": "2025-04-05", "updateReason": "认知重构练习初期反馈"},
+                    {"date": "2025-05-20", "updateReason": "惊恐发作频率下降记录"},
+                    {"date": "2025-07-01", "updateReason": "应对策略自主应用复盘"}
+                ],
+                keyWordsOfPastChatHistory: ["灾难化思维", "呼吸调节", "认知解离", "安全感建立", "情绪耐受"],
+                guideToAction: {
+                    prompt: "结合时间线中情绪变化节点和关键词，你发现哪种心理调节方法最适合自己？如何进一步强化？",
+                    textBox: "记录你的应对心得..."
+                }
+            },
+            {
+                timeline: [
+                    {"date": "2025-01-20", "updateReason": "童年创伤记忆初步梳理"},
+                    {"date": "2025-03-08", "updateReason": "依恋模式识别报告"},
+                    {"date": "2025-05-15", "updateReason": "内在小孩对话练习记录"},
+                    {"date": "2025-06-30", "updateReason": "创伤闪回频率下降复盘"}
+                ],
+                keyWordsOfPastChatHistory: ["情感隔离", "安全感缺失", "自我关怀", "情绪宣泄", "和解尝试"],
+                guideToAction: {
+                    prompt: "观察时间线中创伤相关记录的变化，哪些关键词对应的练习让你感受到内在力量的增长？",
+                    textBox: "点击'写下感悟'展开输入框"
+                }
+            },
+            {
+                timeline: [
+                    {"date": "2025-04-10", "updateReason": "人际关系模式卡点记录"},
+                    {"date": "2025-04-28", "updateReason": "边界感建立练习反馈"},
+                    {"date": "2025-06-05", "updateReason": "冲突应对方式改善记录"},
+                    {"date": "2025-07-12", "updateReason": "亲密关系信任重建进展"}
+                ],
+                keyWordsOfPastChatHistory: ["讨好型人格", "拒绝困难", "情绪勒索", "自我价值感", "健康边界"],
+                guideToAction: {
+                    prompt: "从人际关系卡点到信任重建，哪些关键词对应的改变让你觉得最有疗愈意义？如何巩固这种变化？",
+                    textBox: "支持500字内输入，自动保存为私密笔记"
+                }
+            }
+        ]
     };
     
     return mockData[dimension] || {};
@@ -265,6 +335,12 @@ function updateUIWithReportData() {
     
     // Update big five page
     updateBigFivePage();
+    
+    // Update growth journal page
+    updateGrowthJournalPage();
+    
+    // Update mood barometer page
+    updateMoodBarometerPage();
     
     console.log('UI updated successfully');
 }
@@ -361,15 +437,22 @@ async function sendMessageToAI(message) {
         // Add typing indicator
         addTypingIndicator();
         
-        const response = await fetch(`${API_BASE_URL}/chat`, {
+        // Prepare history in the format expected by backend
+        const history = AppState.chatHistory
+            .slice(-10) // Send last 10 messages for context
+            .map(msg => ({
+                role: msg.type === 'user' ? 'user' : 'assistant',
+                content: msg.content
+            }));
+        
+        const response = await fetch(`${API_BASE_URL}/chat/message`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 message: message,
-                context: AppState.reportData,
-                history: AppState.chatHistory.slice(-10) // Send last 10 messages for context
+                history: history
             })
         });
         
@@ -377,20 +460,8 @@ async function sendMessageToAI(message) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data = await response.json();
-        
-        // Remove typing indicator
-        removeTypingIndicator();
-        
-        // Add AI response to history
-        const aiMessage = {
-            type: 'ai',
-            content: data.response || '抱歉，我现在无法回应。请稍后再试。',
-            timestamp: new Date()
-        };
-        
-        AppState.chatHistory.push(aiMessage);
-        renderChatHistory();
+        // Handle streaming response
+        await handleStreamingResponse(response);
         
     } catch (error) {
         console.error('Error sending message to AI:', error);
@@ -449,7 +520,13 @@ function createMessageElement(message) {
     
     const bubbleDiv = document.createElement('div');
     bubbleDiv.className = 'message-bubble';
-    bubbleDiv.textContent = message.content;
+    
+    // Render markdown for AI messages, plain text for user messages
+    if (message.type === 'ai' && typeof marked !== 'undefined') {
+        bubbleDiv.innerHTML = renderMarkdown(message.content);
+    } else {
+        bubbleDiv.textContent = message.content;
+    }
     
     messageDiv.appendChild(bubbleDiv);
     return messageDiv;
@@ -488,6 +565,151 @@ function removeTypingIndicator() {
     const typingIndicator = elements.messageStream.querySelector('.typing-indicator');
     if (typingIndicator) {
         typingIndicator.remove();
+    }
+}
+
+// Handle streaming response from AI
+async function handleStreamingResponse(response) {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    
+    // Remove typing indicator and prepare for streaming
+    removeTypingIndicator();
+    
+    // Create AI message placeholder
+    const aiMessage = {
+        type: 'ai',
+        content: '',
+        timestamp: new Date()
+    };
+    
+    AppState.chatHistory.push(aiMessage);
+    
+    // Create streaming message element
+    const streamingMessageElement = createStreamingMessageElement();
+    elements.messageStream.appendChild(streamingMessageElement);
+    elements.messageStream.scrollTop = elements.messageStream.scrollHeight;
+    
+    let accumulatedContent = '';
+    
+    try {
+        while (true) {
+            const { done, value } = await reader.read();
+            
+            if (done) {
+                break;
+            }
+            
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+            
+            for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                    const data = line.slice(6).trim();
+                    
+                    if (data === '[DONE]') {
+                        // Stream completed
+                        break;
+                    }
+                    
+                    try {
+                        const parsed = JSON.parse(data);
+                        
+                        if (parsed.type === 'content' && parsed.content) {
+                            accumulatedContent += parsed.content;
+                            updateStreamingMessage(streamingMessageElement, accumulatedContent);
+                        } else if (parsed.type === 'error') {
+                            throw new Error(parsed.error || 'Unknown streaming error');
+                        }
+                    } catch (parseError) {
+                        if (parseError.message.includes('streaming error')) {
+                            throw parseError;
+                        }
+                        // Ignore JSON parse errors for malformed chunks
+                        console.warn('Failed to parse streaming chunk:', data);
+                    }
+                }
+            }
+        }
+        
+        // Update the message in history with final content
+        aiMessage.content = accumulatedContent || '抱歉，我现在无法回应。请稍后再试。';
+        
+        // Replace streaming element with final message
+        streamingMessageElement.remove();
+        renderChatHistory();
+        
+    } catch (error) {
+        console.error('Error in streaming response:', error);
+        
+        // Remove streaming element and add error message
+        streamingMessageElement.remove();
+        
+        // Update the message in history with error
+        aiMessage.content = '抱歉，处理回复时出现错误。请稍后再试。';
+        renderChatHistory();
+    }
+}
+
+// Create streaming message element for real-time display
+function createStreamingMessageElement() {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message ai-message streaming-message';
+    
+    const bubbleDiv = document.createElement('div');
+    bubbleDiv.className = 'message-bubble streaming-bubble';
+    bubbleDiv.textContent = '';
+    
+    // Add cursor indicator
+    const cursor = document.createElement('span');
+    cursor.className = 'streaming-cursor';
+    cursor.textContent = '|';
+    bubbleDiv.appendChild(cursor);
+    
+    messageDiv.appendChild(bubbleDiv);
+    return messageDiv;
+}
+
+// Markdown rendering function
+function renderMarkdown(content) {
+    if (typeof marked === 'undefined') {
+        return content; // Fallback to plain text if marked is not available
+    }
+    
+    // Configure marked options
+    marked.setOptions({
+        breaks: true, // Convert line breaks to <br>
+        gfm: true, // GitHub Flavored Markdown
+        sanitize: false, // Allow HTML (be careful in production)
+        smartLists: true,
+        smartypants: true
+    });
+    
+    try {
+        return marked.parse(content);
+    } catch (error) {
+        console.warn('Markdown parsing error:', error);
+        return content; // Fallback to plain text
+    }
+}
+
+// Update streaming message content
+function updateStreamingMessage(messageElement, content) {
+    const bubble = messageElement.querySelector('.message-bubble');
+    const cursor = bubble.querySelector('.streaming-cursor');
+    
+    if (bubble && cursor) {
+        // For streaming, we'll render markdown in real-time
+        if (typeof marked !== 'undefined') {
+            bubble.innerHTML = renderMarkdown(content);
+            bubble.appendChild(cursor);
+        } else {
+            bubble.textContent = content;
+            bubble.appendChild(cursor);
+        }
+        
+        // Scroll to bottom
+        elements.messageStream.scrollTop = elements.messageStream.scrollHeight;
     }
 }
 
@@ -1037,6 +1259,686 @@ function updateDisclaimer(data) {
     }
 }
 
+// Growth Journal Page Functions
+function updateGrowthJournalPage() {
+    const journalData = AppState.reportData.journal;
+    if (!journalData || !Array.isArray(journalData)) return;
+    
+    // Combine all timeline data
+    const allTimelines = journalData.flatMap(entry => entry.timeline);
+    const allKeywords = journalData.flatMap(entry => entry.keyWordsOfPastChatHistory);
+    
+    // Update timeline
+    updateGrowthTimeline(allTimelines);
+    
+    // Update keywords cloud
+    updateGrowthKeywords(allKeywords);
+    
+    // Update reflection module (use first entry's prompt)
+    updateReflectionModule(journalData[0]?.guideToAction);
+    
+    // Update statistics
+    updateGrowthStatistics(journalData);
+    
+    // Setup reflection interactions
+    setupReflectionInteractions();
+}
+
+function updateGrowthTimeline(timelineData) {
+    const timelineWrapper = document.getElementById('timeline-wrapper');
+    if (!timelineWrapper || !timelineData) return;
+    
+    // Clear existing timeline
+    timelineWrapper.innerHTML = '';
+    
+    // Sort timeline by date
+    const sortedTimeline = timelineData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    // Create timeline items
+    sortedTimeline.forEach((item, index) => {
+        const timelineItem = document.createElement('div');
+        timelineItem.className = 'timeline-item';
+        timelineItem.style.animationDelay = `${index * 0.1}s`;
+        
+        // Determine category based on content
+        const category = categorizeTimelineEntry(item.updateReason);
+        
+        timelineItem.innerHTML = `
+            <div class="timeline-date">${formatDate(item.date)}</div>
+            <div class="timeline-content">
+                <div class="timeline-reason">${item.updateReason}</div>
+                <div class="timeline-category">${category}</div>
+            </div>
+        `;
+        
+        timelineWrapper.appendChild(timelineItem);
+    });
+}
+
+function updateGrowthKeywords(keywords) {
+    const keywordsCloud = document.getElementById('growth-keywords-cloud');
+    if (!keywordsCloud || !keywords) return;
+    
+    // Clear existing keywords
+    keywordsCloud.innerHTML = '';
+    
+    // Remove duplicates and create keyword elements
+    const uniqueKeywords = [...new Set(keywords)];
+    
+    uniqueKeywords.forEach((keyword, index) => {
+        const keywordElement = document.createElement('span');
+        keywordElement.className = 'growth-keyword';
+        keywordElement.textContent = keyword;
+        keywordElement.style.animationDelay = `${index * 0.1}s`;
+        
+        // Add click interaction
+        keywordElement.addEventListener('click', () => {
+            handleKeywordClick(keyword);
+        });
+        
+        keywordsCloud.appendChild(keywordElement);
+    });
+}
+
+function updateReflectionModule(guideToAction) {
+    const reflectionPrompt = document.getElementById('reflection-prompt');
+    const reflectionTextarea = document.getElementById('reflection-textarea');
+    
+    if (reflectionPrompt && guideToAction?.prompt) {
+        reflectionPrompt.textContent = guideToAction.prompt;
+    }
+    
+    if (reflectionTextarea && guideToAction?.textBox) {
+        reflectionTextarea.placeholder = guideToAction.textBox;
+    }
+}
+
+function updateGrowthStatistics(journalData) {
+    // Calculate statistics
+    const totalEntries = journalData.reduce((sum, entry) => sum + entry.timeline.length, 0);
+    const keyInsights = journalData.length; // Number of different growth themes
+    const milestoneCount = journalData.filter(entry => 
+        entry.timeline.some(item => 
+            item.updateReason.includes('复盘') || 
+            item.updateReason.includes('进展') ||
+            item.updateReason.includes('下降')
+        )
+    ).length;
+    
+    // Update DOM elements
+    const totalEntriesElement = document.getElementById('total-entries');
+    const keyInsightsElement = document.getElementById('key-insights');
+    const milestoneCountElement = document.getElementById('milestone-count');
+    
+    if (totalEntriesElement) {
+        animateNumber(totalEntriesElement, totalEntries);
+    }
+    
+    if (keyInsightsElement) {
+        animateNumber(keyInsightsElement, keyInsights);
+    }
+    
+    if (milestoneCountElement) {
+        animateNumber(milestoneCountElement, milestoneCount);
+    }
+}
+
+function setupReflectionInteractions() {
+    const toggleBtn = document.getElementById('reflection-toggle-btn');
+    const textarea = document.getElementById('reflection-textarea');
+    const saveBtn = document.getElementById('reflection-save-btn');
+    const cancelBtn = document.getElementById('reflection-cancel-btn');
+    const actions = document.querySelector('.reflection-actions');
+    
+    if (!toggleBtn || !textarea || !saveBtn || !cancelBtn || !actions) return;
+    
+    // Toggle textarea visibility
+    toggleBtn.addEventListener('click', () => {
+        const isVisible = textarea.style.display !== 'none';
+        
+        if (isVisible) {
+            // Hide textarea
+            textarea.style.display = 'none';
+            actions.style.display = 'none';
+            toggleBtn.textContent = '写下感悟';
+            toggleBtn.style.display = 'block';
+        } else {
+            // Show textarea
+            textarea.style.display = 'block';
+            actions.style.display = 'flex';
+            toggleBtn.style.display = 'none';
+            textarea.focus();
+        }
+    });
+    
+    // Save reflection
+    saveBtn.addEventListener('click', () => {
+        const content = textarea.value.trim();
+        if (content) {
+            saveReflection(content);
+            // Reset UI
+            textarea.value = '';
+            textarea.style.display = 'none';
+            actions.style.display = 'none';
+            toggleBtn.style.display = 'block';
+            toggleBtn.textContent = '已保存感悟';
+            
+            // Reset button text after 2 seconds
+            setTimeout(() => {
+                toggleBtn.textContent = '写下感悟';
+            }, 2000);
+        }
+    });
+    
+    // Cancel reflection
+    cancelBtn.addEventListener('click', () => {
+        textarea.value = '';
+        textarea.style.display = 'none';
+        actions.style.display = 'none';
+        toggleBtn.style.display = 'block';
+    });
+}
+
+// Helper Functions for Growth Journal
+function categorizeTimelineEntry(reason) {
+    if (reason.includes('焦虑') || reason.includes('情绪') || reason.includes('惊恐')) {
+        return '情绪管理';
+    } else if (reason.includes('创伤') || reason.includes('依恋') || reason.includes('内在')) {
+        return '创伤疗愈';
+    } else if (reason.includes('人际') || reason.includes('关系') || reason.includes('边界')) {
+        return '人际关系';
+    } else if (reason.includes('抑郁') || reason.includes('动力') || reason.includes('兴趣')) {
+        return '情绪调节';
+    } else if (reason.includes('自我') || reason.includes('批判') || reason.includes('接纳')) {
+        return '自我成长';
+    } else {
+        return '心理成长';
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('zh-CN', {
+        month: 'short',
+        day: 'numeric'
+    });
+}
+
+function handleKeywordClick(keyword) {
+    // Add keyword to chat input as a suggestion
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+        chatInput.value = `请帮我深入分析"${keyword}"这个关键词在我的成长过程中的意义。`;
+        chatInput.focus();
+    }
+}
+
+function animateNumber(element, targetNumber) {
+    const startNumber = 0;
+    const duration = 1000; // 1 second
+    const startTime = performance.now();
+    
+    function updateNumber(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentNumber = Math.floor(startNumber + (targetNumber - startNumber) * easeOutQuart);
+        
+        element.textContent = currentNumber;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+        } else {
+            element.textContent = targetNumber;
+        }
+    }
+    
+    requestAnimationFrame(updateNumber);
+}
+
+function saveReflection(content) {
+    // In a real application, this would save to backend
+    console.log('Saving reflection:', content);
+    
+    // For now, just store in localStorage
+    const reflections = JSON.parse(localStorage.getItem('reflections') || '[]');
+    reflections.push({
+        content: content,
+        timestamp: new Date().toISOString(),
+        dimension: 'growth-journal'
+    });
+    localStorage.setItem('reflections', JSON.stringify(reflections));
+    
+    // Could also send to backend API
+    // await fetch(`${API_BASE_URL}/reflections`, {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ content, dimension: 'growth-journal' })
+    // });
+}
+
+// Mood Barometer Page Functions
+function updateMoodBarometerPage() {
+    const moodData = AppState.reportData.mood;
+    if (!moodData) return;
+    
+    // Update current mood status
+    updateCurrentMoodStatus(moodData);
+    
+    // Draw mood chart
+    drawMoodChart(moodData);
+    
+    // Update emotional toolbox
+    updateEmotionalToolbox(moodData);
+    
+    // Update mood statistics
+    updateMoodStatistics(moodData);
+    
+    // Setup toolbox interactions
+    setupToolboxInteractions();
+}
+
+function updateCurrentMoodStatus(data) {
+    // Update mood icon based on current mood
+    const moodIcon = document.getElementById('mood-icon');
+    if (moodIcon && data.overallCurrentMood) {
+        const icon = getMoodIcon(data.overallCurrentMood);
+        moodIcon.textContent = icon;
+    }
+    
+    // Update current mood text
+    const currentMoodText = document.getElementById('current-mood-text');
+    if (currentMoodText && data.overallCurrentMood) {
+        currentMoodText.textContent = data.overallCurrentMood;
+    }
+    
+    // Update mood date
+    const moodDate = document.getElementById('mood-date');
+    if (moodDate && data.reportGeneratedDate) {
+        const formattedDate = formatMoodDate(data.reportGeneratedDate);
+        moodDate.textContent = formattedDate;
+    }
+    
+    // Update mood score
+    const moodScoreNumber = document.getElementById('mood-score-number');
+    if (moodScoreNumber && data.moodHistory && data.moodHistory.length > 0) {
+        const latestScore = data.moodHistory[data.moodHistory.length - 1].moodScore;
+        moodScoreNumber.textContent = latestScore.toFixed(1);
+    }
+}
+
+function drawMoodChart(data) {
+    const canvas = document.getElementById('mood-chart');
+    if (!canvas || !data.moodHistory) return;
+    
+    const ctx = canvas.getContext('2d');
+    const chartData = data.moodHistory;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Chart dimensions
+    const padding = 60;
+    const chartWidth = canvas.width - 2 * padding;
+    const chartHeight = canvas.height - 2 * padding;
+    
+    // Data processing
+    const minScore = 1;
+    const maxScore = 10;
+    const scoreRange = maxScore - minScore;
+    
+    // Draw grid
+    drawMoodChartGrid(ctx, padding, chartWidth, chartHeight, minScore, maxScore);
+    
+    // Draw mood line
+    drawMoodLine(ctx, chartData, padding, chartWidth, chartHeight, minScore, scoreRange);
+    
+    // Draw trend line
+    drawTrendLine(ctx, chartData, padding, chartWidth, chartHeight, minScore, scoreRange);
+    
+    // Draw data points
+    drawMoodDataPoints(ctx, chartData, padding, chartWidth, chartHeight, minScore, scoreRange);
+    
+    // Draw labels
+    drawMoodChartLabels(ctx, chartData, padding, chartWidth, chartHeight);
+    
+    // Update chart title and subtitle
+    updateChartTitleAndSubtitle(data);
+}
+
+function drawMoodChartGrid(ctx, padding, width, height, minScore, maxScore) {
+    ctx.strokeStyle = '#EFEFEF';
+    ctx.lineWidth = 1;
+    
+    // Horizontal grid lines (score levels)
+    for (let i = 0; i <= 5; i++) {
+        const y = padding + (height * i) / 5;
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(padding + width, y);
+        ctx.stroke();
+        
+        // Score labels
+        const score = maxScore - (i * (maxScore - minScore)) / 5;
+        ctx.fillStyle = '#999999';
+        ctx.font = '12px PingFang SC, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(score.toFixed(0), padding - 10, y);
+    }
+    
+    // Vertical grid lines (time)
+    const dataPoints = 7; // Show every other day for clarity
+    for (let i = 0; i <= dataPoints; i++) {
+        const x = padding + (width * i) / dataPoints;
+        ctx.beginPath();
+        ctx.moveTo(x, padding);
+        ctx.lineTo(x, padding + height);
+        ctx.stroke();
+    }
+}
+
+function drawMoodLine(ctx, chartData, padding, width, height, minScore, scoreRange) {
+    if (chartData.length < 2) return;
+    
+    ctx.strokeStyle = '#B4C7D9';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    
+    // Create gradient
+    const gradient = ctx.createLinearGradient(0, 0, width, 0);
+    gradient.addColorStop(0, '#B4C7D9');
+    gradient.addColorStop(1, '#9EADC0');
+    ctx.strokeStyle = gradient;
+    
+    ctx.beginPath();
+    
+    chartData.forEach((point, index) => {
+        const x = padding + (width * index) / (chartData.length - 1);
+        const normalizedScore = (point.moodScore - minScore) / scoreRange;
+        const y = padding + height - (normalizedScore * height);
+        
+        if (index === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    });
+    
+    ctx.stroke();
+}
+
+function drawTrendLine(ctx, chartData, padding, width, height, minScore, scoreRange) {
+    if (chartData.length < 2) return;
+    
+    // Calculate linear regression for trend line
+    const trend = calculateTrendLine(chartData);
+    
+    ctx.strokeStyle = 'rgba(180, 199, 217, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    
+    ctx.beginPath();
+    
+    const startY = padding + height - ((trend.start - minScore) / scoreRange * height);
+    const endY = padding + height - ((trend.end - minScore) / scoreRange * height);
+    
+    ctx.moveTo(padding, startY);
+    ctx.lineTo(padding + width, endY);
+    ctx.stroke();
+    
+    ctx.setLineDash([]); // Reset dash
+}
+
+function drawMoodDataPoints(ctx, chartData, padding, width, height, minScore, scoreRange) {
+    chartData.forEach((point, index) => {
+        const x = padding + (width * index) / (chartData.length - 1);
+        const normalizedScore = (point.moodScore - minScore) / scoreRange;
+        const y = padding + height - (normalizedScore * height);
+        
+        // Draw point
+        ctx.fillStyle = '#B4C7D9';
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Draw highlight on hover (simplified)
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    });
+}
+
+function drawMoodChartLabels(ctx, chartData, padding, width, height) {
+    ctx.fillStyle = '#999999';
+    ctx.font = '10px PingFang SC, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    
+    // Show date labels for every few points to avoid crowding
+    const labelInterval = Math.max(1, Math.floor(chartData.length / 7));
+    
+    chartData.forEach((point, index) => {
+        if (index % labelInterval === 0 || index === chartData.length - 1) {
+            const x = padding + (width * index) / (chartData.length - 1);
+            const date = new Date(point.date);
+            const label = `${date.getMonth() + 1}/${date.getDate()}`;
+            ctx.fillText(label, x, padding + height + 10);
+        }
+    });
+}
+
+function updateChartTitleAndSubtitle(data) {
+    const chartTitle = document.getElementById('chart-title');
+    const chartSubtitle = document.getElementById('chart-subtitle');
+    
+    if (chartTitle && data.chartDetails?.chartTitle) {
+        chartTitle.textContent = data.chartDetails.chartTitle;
+    }
+    
+    if (chartSubtitle && data.chartDetails?.moodScoreScale) {
+        chartSubtitle.textContent = data.chartDetails.moodScoreScale;
+    }
+}
+
+function updateEmotionalToolbox(data) {
+    // Update mood analysis
+    const moodAnalysis = document.getElementById('mood-analysis');
+    if (moodAnalysis && data.emotionalToolbox?.moodAnalysis) {
+        moodAnalysis.textContent = data.emotionalToolbox.moodAnalysis;
+    }
+    
+    // Update action guide
+    const moodActionGuide = document.getElementById('mood-action-guide');
+    if (moodActionGuide && data.emotionalToolbox?.actionGuide) {
+        moodActionGuide.textContent = data.emotionalToolbox.actionGuide;
+    }
+}
+
+function updateMoodStatistics(data) {
+    if (!data.moodHistory || data.moodHistory.length === 0) return;
+    
+    const scores = data.moodHistory.map(entry => entry.moodScore);
+    
+    // Calculate statistics
+    const avgScore = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+    const maxScore = Math.max(...scores);
+    const stableDays = calculateStableDays(scores);
+    const trackingDays = data.moodHistory.length;
+    
+    // Update DOM elements with animation
+    const avgElement = document.getElementById('avg-mood-score');
+    const peakElement = document.getElementById('peak-mood');
+    const stableElement = document.getElementById('stable-days');
+    const trackingElement = document.getElementById('tracking-days');
+    
+    if (avgElement) {
+        animateDecimalNumber(avgElement, avgScore, 1);
+    }
+    
+    if (peakElement) {
+        animateDecimalNumber(peakElement, maxScore, 1);
+    }
+    
+    if (stableElement) {
+        animateNumber(stableElement, stableDays);
+    }
+    
+    if (trackingElement) {
+        animateNumber(trackingElement, trackingDays);
+    }
+}
+
+function setupToolboxInteractions() {
+    // Setup breathing exercise button
+    const breathingBtn = document.getElementById('breathing-exercise');
+    if (breathingBtn) {
+        breathingBtn.addEventListener('click', () => {
+            handleToolboxAction('breathing', '开始4-7-8呼吸练习：吸气4秒，屏息7秒，呼气8秒。');
+        });
+    }
+    
+    // Setup mood journal button
+    const journalBtn = document.getElementById('mood-journal');
+    if (journalBtn) {
+        journalBtn.addEventListener('click', () => {
+            handleToolboxAction('journal', '记录当前情绪和触发因素，有助于识别情绪模式。');
+        });
+    }
+    
+    // Setup mindfulness button
+    const mindfulnessBtn = document.getElementById('mindfulness');
+    if (mindfulnessBtn) {
+        mindfulnessBtn.addEventListener('click', () => {
+            handleToolboxAction('mindfulness', '进行5分钟正念冥想：专注于呼吸，观察当下的感受。');
+        });
+    }
+}
+
+// Helper Functions for Mood Barometer
+function getMoodIcon(moodText) {
+    const moodIcons = {
+        '平静': '😌',
+        '满足': '😊',
+        '快乐': '😄',
+        '兴奋': '🤩',
+        '焦虑': '😰',
+        '沮丧': '😔',
+        '愤怒': '😠',
+        '疲惫': '😴',
+        '平静与满足': '🌤️',
+        '积极': '☀️',
+        '稳定': '🌈'
+    };
+    
+    // Find matching icon or return default
+    for (const [mood, icon] of Object.entries(moodIcons)) {
+        if (moodText.includes(mood)) {
+            return icon;
+        }
+    }
+    
+    return '🌤️'; // Default icon
+}
+
+function formatMoodDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+function calculateTrendLine(chartData) {
+    const n = chartData.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+    
+    chartData.forEach((point, index) => {
+        sumX += index;
+        sumY += point.moodScore;
+        sumXY += index * point.moodScore;
+        sumXX += index * index;
+    });
+    
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+    
+    return {
+        start: intercept,
+        end: intercept + slope * (n - 1)
+    };
+}
+
+function calculateStableDays(scores) {
+    if (scores.length < 2) return 0;
+    
+    let stableDays = 0;
+    const threshold = 1.0; // Consider stable if change is less than 1 point
+    
+    for (let i = 1; i < scores.length; i++) {
+        if (Math.abs(scores[i] - scores[i - 1]) <= threshold) {
+            stableDays++;
+        }
+    }
+    
+    return stableDays;
+}
+
+function animateDecimalNumber(element, targetNumber, decimals = 1) {
+    const startNumber = 0;
+    const duration = 1000; // 1 second
+    const startTime = performance.now();
+    
+    function updateNumber(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentNumber = startNumber + (targetNumber - startNumber) * easeOutQuart;
+        
+        element.textContent = currentNumber.toFixed(decimals);
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+        } else {
+            element.textContent = targetNumber.toFixed(decimals);
+        }
+    }
+    
+    requestAnimationFrame(updateNumber);
+}
+
+function handleToolboxAction(actionType, message) {
+    // Visual feedback for button
+    const button = event.target.closest('.toolbox-button');
+    if (button) {
+        const originalBg = button.style.backgroundColor;
+        button.style.backgroundColor = 'rgba(119, 191, 163, 0.2)';
+        button.style.transform = 'translateY(-2px)';
+        
+        // Reset after animation
+        setTimeout(() => {
+            button.style.backgroundColor = originalBg;
+            button.style.transform = 'translateY(0)';
+        }, 200);
+    }
+    
+    // Add message to chat
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+        chatInput.value = `我想了解更多关于${actionType === 'breathing' ? '呼吸练习' : actionType === 'journal' ? '情绪日记' : '正念冥想'}的技巧。`;
+        chatInput.focus();
+    }
+    
+    console.log(`Toolbox action: ${actionType} - ${message}`);
+}
+
+
 // Export for debugging (development only)
 if (typeof window !== 'undefined') {
     window.AppState = AppState;
@@ -1044,5 +1946,8 @@ if (typeof window !== 'undefined') {
     window.sendMessageToAI = sendMessageToAI;
     window.updateValuesPage = updateValuesPage;
     window.updateBigFivePage = updateBigFivePage;
+    window.updateGrowthJournalPage = updateGrowthJournalPage;
+    window.updateMoodBarometerPage = updateMoodBarometerPage;
     window.drawRadarChart = drawRadarChart;
+    window.drawMoodChart = drawMoodChart;
 }

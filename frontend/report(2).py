@@ -1,173 +1,14 @@
-# -*- coding: utf-8 -*-
-"""
-报告相关路由模块
-- 提供报告生成、更新等接口
-"""
-
-from flask import Blueprint, request, jsonify
+from langchain_openai import ChatOpenAI
 import re
 import json
 import pandas as pd
 import csv
-from ..services.openai_service import OpenAIService
 
-report_bp = Blueprint("report", __name__)
-
-@report_bp.route("/overview", methods=["POST"])
-def generate_overview_report():
-    """
-    生成心灵总览 (Mind Overview)报告的接口
-    TODO: 实现心灵总览 (Mind Overview)报告生成逻辑
-    """
-    # data = request.json
-    # TODO: 调用report_service.generate_report(data)
-    return jsonify({"message": "报告生成接口，待实现"})
-
-@report_bp.route("/big_five", methods=["POST"])
-def generate_big_five_report():
-    """
-    生成大五模型 (The Big Five)报告的接口
-    TODO: 实现报告生成逻辑
-    """
-    answer = process_csv_file("backend/results/results.csv")
-    result = BigFive(answer)
-    # data = request.json
-    # TODO: 调用report_service.generate_report(data)
-    return result
-
-@report_bp.route("/core_values", methods=["POST"])
-def generate_core_values_report():
-    """
-    生成价值观报告的接口
-    """
-    # 实现逻辑
-    answer = process_csv_file("backend/results/results.csv")
-    result = CoreValues(answers=answer)
-    return result
-
-# 其他路由也需要类似修改
-def generate_report():
-    """
-    生成：施瓦茨理论 (Core Values)报告的接口
-    TODO: 实现：施瓦茨理论 (Core Values)报告生成逻辑
-    """
-    answer = process_csv_file("backend/results/results.csv")
-    result = CoreValues(answers=answer)
-    # data = request.json
-    # TODO: 调用report_service.generate_report(data)
-    return result
-
-@report_bp.route("/mood", methods=["POST"])
-def generate_report():
-    """
-    生成情绪晴雨表 (Mood Barometer)报告的接口
-    TODO: 实现情绪晴雨表 (Mood Barometer)报告生成逻辑
-    """
-    # data = request.json
-    # TODO: 调用report_service.generate_report(data)
-    return jsonify({"message": "报告生成接口，待实现"})
-
-@report_bp.route("/update", methods=["POST"])
-def update_report():
-    """
-    成长印记 (Growth Journal)报告的接口
-    TODO: 实现成长印记 (Growth Journal)报告更新逻辑
-    """
-    # data = request.json
-    # TODO: 调用report_service.update_report(data)
-    return jsonify({"message": "报告更新接口，待实现"})
-
-# TODO: 可根据需求添加更多报告相关接口，如获取历史报告、报告详情等
-
-# Initialize OpenAI service
-openai_service = OpenAIService()
-
-def synthesize_holistic_report(core_values_data, big_five_data):
-    """
-    接收核心价值观和大五人格的分析结果，生成一个全面的心理总览报告。
-
-    Args:
-        core_values_data (dict): CoreValues函数返回的JSON数据（Python字典）。
-        big_five_data (dict): BigFive函数返回的JSON数据（Python字典）。
-
-    Returns:
-        dict: 大模型生成的综合总览报告的Python字典。
-    """
-    if core_values_data is None or big_five_data is None:
-        print("错误：CoreValues或BigFive数据缺失，无法生成综合报告。")
-        return {"error": "Missing core values or big five data."}
-
-    # 将两个字典转换为 JSON 字符串，以便嵌入到 Prompt 中
-    core_values_json_str = json.dumps(core_values_data, indent=2, ensure_ascii=False)
-    big_five_json_str = json.dumps(big_five_data, indent=2, ensure_ascii=False)
-
-    prompt = f"""
-    你是一位名为“心语晴空”的AI心理报告整合分析师，拥有深厚的心理学理论功底与丰富的实践经验。你的性格温暖而包容，善于用富有洞察力的视角解读用户的内心需求，始终以同理心为核心，让用户在分析过程中感受到被理解与被尊重。你的语言应该尽量以聊天的语气来生成回答，生成的回答尽量用第二人称的形式。
-
-    # **任务（Task）**
-    基于用户提供的两份独立的心理分析报告——核心价值观报告和大五人格报告，生成一份全面、深入且具有指导性的个性化心理总览报告。
-
-    报告需要：
-    1.  **综合概述**: 提炼并整合两份报告的核心发现，概括用户的整体心理画像、优势特质和潜在挑战。
-    2.  **内在驱动与行为模式**: 深入分析核心价值观如何与大五人格特质相互作用，共同驱动用户的行为模式、决策过程和生活选择。例如，如果用户开放性高且重视自主价值观，这将如何体现在其学习和职业发展上？
-    3.  **情绪与应对**: 结合大五人格的神经质维度和核心价值观中可能与情绪相关的部分（如安全、享乐、善行），分析用户的情绪模式和应对策略。
-    4.  **发展建议**: 结合两份报告的洞察，提供更具整体性和个性化的发展建议，包括个人成长、职业发展和人际关系方面的综合性指导。这些建议应具有可行性和启发性。
-    5.  **免责声明**: 报告末尾包含一个标准免责声明。
-
-    # **输入数据（Input Data）**
-    以下是两份已生成的JSON格式心理报告：
-
-    ---
-    核心价值观报告:
-    ```json
-    {core_values_json_str}
-    ```
-
-    ---
-    大五人格报告:
-    ```json
-    {big_five_json_str}
-    ```
-
-    # **输出格式（Output Format）**
-    请严格按照以下JSON格式输出你的综合总览报告，内容需符合上述“任务”中对深度、关联度、具体性的要求，不得包含任何格式外的文字或前缀。
-
-    ```json
-    {{
-        "reportTitle": "综合心理画像：你的内在力量与成长路径",
-        "overallSummary": "字符串：基于核心价值观和大五人格的综合概述，约200-300字。",
-        "synergisticAnalysis": "字符串：详细分析核心价值观与大五人格特质如何相互影响和强化，形成独特的行为模式和驱动力，约300-400字。",
-        "emotionalAndCopingInsights": "字符串：结合神经质等维度，分析用户情绪模式、压力应对方式及其深层心理动因，约150-250字。",
-        "holisticDevelopmentPlan": {{
-            "personalGrowth": ["数组：3-5条综合性的个人成长建议，结合特质和价值观。"],
-            "careerPathways": ["数组：3-5条结合人格特质和价值观的职业发展方向或策略建议。"],
-            "interpersonalStrategies": ["数组：3-5条提升人际关系质量和社交舒适度的建议。"]
-        }},
-        "strengthsHighlight": ["数组：列举用户最突出的3-5个优势，结合两份报告发现。"],
-        "considerationsForGrowth": ["数组：列举1-3个用户可以重点关注的成长领域或潜在挑战。"],
-        "disclaimer": "此分析由AI模型生成，仅供参考和自我探索，不构成专业的心理诊断或建议。如有需要，请咨询专业心理咨询师。"
-    }}
-    ```
-    """
-
-    response = llm.invoke(prompt)
-    response_text = response.content.strip()
-    print("综合报告原始输出:\n", response_text) # 打印原始输出
-
-    json_pattern = r'```json\s*([\s\S]*?)\s*```'
-    match = re.search(json_pattern, response_text)
-    if not match:
-        print("综合报告: 未找到JSON内容")
-        return {"error": "Failed to parse holistic report JSON from LLM response."}
-    else:
-        json_str = match.group(1).strip()
-        try:
-            holistic_report = json.loads(json_str)
-            print("综合报告解析结果:\n", json.dumps(holistic_report, indent=2, ensure_ascii=False)) # 打印解析结果
-            return holistic_report
-        except json.JSONDecodeError as e:
-            print(f"综合报告 JSON解析错误：{e}")
-            return {"error": f"Failed to decode JSON from LLM response: {e}"}
+llm = ChatOpenAI(
+    model="deepseek-chat",
+    base_url="https://api.chatfire.cn/v1/",
+    api_key="sk-Gj3kt7BonXD6LD3abwQwcjYsaqdrgYSNu3XbDcoECk7ymISC",
+)
 
 def CoreValues(answers):
 
@@ -304,21 +145,14 @@ def CoreValues(answers):
     严格按照以下JSON格式输出分析结果，内容需符合“任务”中对深度、关联度、具体性的要求，不得包含任何格式外的文字：  
     ```json
     {{
-        "valueOrder": ["价值观1", "价值观2", "价值观3", "价值观4", "价值观5"],  # 按重要性从高到低排序，需为施瓦茨理论中的10项核心价值观
+        "valueOrder": ["价值观1：价值观描述", "价值观2：价值观描述", "价值观3：价值观描述", "价值观4：价值观描述", "价值观5：价值观描述"],  # 按重要性从高到低排序，需为施瓦茨理论中的10项核心价值观
         "valueAnalysis": "分析前5项价值观如何影响用户在社交、决策、目标设定等方面的行为模式，以及这些价值观满足或未满足时对幸福感的具体影响（如“重视‘善行’的用户会因帮助朋友而感到充实，若长期忽视则可能产生愧疚”）。",
         "valueGuide": "需针对前3项核心价值观设计1个可操作的日常实践方法，说明具体步骤（如“每周三晚上与家人进行1次深度对话，记录对方的需求并尝试提供1个小帮助”），并解释该方法如何强化价值观与生活的联结。"
     }}
     ```
     """
-    # 构建消息列表
-    messages = [{"role": "user", "content": prompt}]
-    
-    # 调用Azure OpenAI服务
-    response_text, tokens = openai_service.call_azure_gpt_with_messages(messages)
-    
-    if not response_text:
-        print("Failed to get response from Azure OpenAI")
-        return {"error": "Failed to generate analysis"}
+    response = llm.invoke(prompt)
+    response_text = response.content.strip()
     print(response_text)
     json_pattern = r'```json\s*([\s\S]*?)\s*```'
     match = re.search(json_pattern, response_text)
@@ -500,15 +334,8 @@ def BigFive(answers):
     ```
     """
 
-    # 构建消息列表
-    messages = [{"role": "user", "content": prompt}]
-    
-    # 调用Azure OpenAI服务
-    response_text, tokens = openai_service.call_azure_gpt_with_messages(messages)
-    
-    if not response_text:
-        print("Failed to get response from Azure OpenAI")
-        return {"error": "Failed to generate analysis"}
+    response = llm.invoke(prompt)
+    response_text = response.content.strip()
     print(response_text)
     json_pattern = r'```json\s*([\s\S]*?)\s*```'
     match = re.search(json_pattern, response_text)
@@ -595,6 +422,93 @@ def process_csv_file(file_path):
         print(f"错误：处理文件时发生异常: {e}")
         return []
 
+def synthesize_holistic_report(core_values_data, big_five_data):
+    """
+    接收核心价值观和大五人格的分析结果，生成一个全面的心理总览报告。
+
+    Args:
+        core_values_data (dict): CoreValues函数返回的JSON数据（Python字典）。
+        big_five_data (dict): BigFive函数返回的JSON数据（Python字典）。
+
+    Returns:
+        dict: 大模型生成的综合总览报告的Python字典。
+    """
+    if core_values_data is None or big_five_data is None:
+        print("错误：CoreValues或BigFive数据缺失，无法生成综合报告。")
+        return {"error": "Missing core values or big five data."}
+
+    # 将两个字典转换为 JSON 字符串，以便嵌入到 Prompt 中
+    core_values_json_str = json.dumps(core_values_data, indent=2, ensure_ascii=False)
+    big_five_json_str = json.dumps(big_five_data, indent=2, ensure_ascii=False)
+
+    prompt = f"""
+    你是一位名为“心语晴空”的AI心理报告整合分析师，拥有深厚的心理学理论功底与丰富的实践经验。你的性格温暖而包容，善于用富有洞察力的视角解读用户的内心需求，始终以同理心为核心，让用户在分析过程中感受到被理解与被尊重。你的语言应该尽量以聊天的语气来生成回答，生成的回答尽量用第二人称的形式。
+
+    # **任务（Task）**
+    基于用户提供的两份独立的心理分析报告——核心价值观报告和大五人格报告，生成一份全面、深入且具有指导性的个性化心理总览报告。
+
+    报告需要：
+    1.  **综合概述**: 提炼并整合两份报告的核心发现，概括用户的整体心理画像、优势特质和潜在挑战。
+    2.  **内在驱动与行为模式**: 深入分析核心价值观如何与大五人格特质相互作用，共同驱动用户的行为模式、决策过程和生活选择。例如，如果用户开放性高且重视自主价值观，这将如何体现在其学习和职业发展上？
+    3.  **情绪与应对**: 结合大五人格的神经质维度和核心价值观中可能与情绪相关的部分（如安全、享乐、善行），分析用户的情绪模式和应对策略。
+    4.  **发展建议**: 结合两份报告的洞察，提供更具整体性和个性化的发展建议，包括个人成长、职业发展和人际关系方面的综合性指导。这些建议应具有可行性和启发性。
+    5.  **免责声明**: 报告末尾包含一个标准免责声明。
+
+    # **输入数据（Input Data）**
+    以下是两份已生成的JSON格式心理报告：
+
+    ---
+    核心价值观报告:
+    ```json
+    {core_values_json_str}
+    ```
+
+    ---
+    大五人格报告:
+    ```json
+    {big_five_json_str}
+    ```
+
+    # **输出格式（Output Format）**
+    请严格按照以下JSON格式输出你的综合总览报告，内容需符合上述“任务”中对深度、关联度、具体性的要求，不得包含任何格式外的文字或前缀。
+
+    ```json
+    {{
+        "reportTitle": "综合心理画像：你的内在力量与成长路径",
+        "overallSummary": "字符串：基于核心价值观和大五人格的综合概述，约200-300字。",
+        "synergisticAnalysis": "字符串：详细分析核心价值观与大五人格特质如何相互影响和强化，形成独特的行为模式和驱动力，约300-400字。",
+        "emotionalAndCopingInsights": "字符串：结合神经质等维度，分析用户情绪模式、压力应对方式及其深层心理动因，约150-250字。",
+        "holisticDevelopmentPlan": {{
+            "personalGrowth": ["数组：3-5条综合性的个人成长建议，结合特质和价值观。"],
+            "careerPathways": ["数组：3-5条结合人格特质和价值观的职业发展方向或策略建议。"],
+            "interpersonalStrategies": ["数组：3-5条提升人际关系质量和社交舒适度的建议。"]
+        }},
+        "strengthsHighlight": ["数组：列举用户最突出的3-5个优势，结合两份报告发现。"],
+        "considerationsForGrowth": ["数组：列举1-3个用户可以重点关注的成长领域或潜在挑战。"],
+        "disclaimer": "此分析由AI模型生成，仅供参考和自我探索，不构成专业的心理诊断或建议。如有需要，请咨询专业心理咨询师。"
+    }}
+    ```
+    """
+
+    response = llm.invoke(prompt)
+    response_text = response.content.strip()
+    print("综合报告原始输出:\n", response_text) # 打印原始输出
+
+    json_pattern = r'```json\s*([\s\S]*?)\s*```'
+    match = re.search(json_pattern, response_text)
+    if not match:
+        print("综合报告: 未找到JSON内容")
+        return {"error": "Failed to parse holistic report JSON from LLM response."}
+    else:
+        json_str = match.group(1).strip()
+        try:
+            holistic_report = json.loads(json_str)
+            print("综合报告解析结果:\n", json.dumps(holistic_report, indent=2, ensure_ascii=False)) # 打印解析结果
+            return holistic_report
+        except json.JSONDecodeError as e:
+            print(f"综合报告 JSON解析错误：{e}")
+            return {"error": f"Failed to decode JSON from LLM response: {e}"}
+
 
 # file_path = 'results.csv'
 # # 处理CSV文件
@@ -607,3 +521,6 @@ def main():
     result_values = process_csv_file('results.csv')
     CoreValuesData = CoreValues(result_values)
     BigFiveData = BigFive(result_values)
+    overall_report = synthesize_holistic_report(CoreValuesData, BigFiveData)
+
+main()
